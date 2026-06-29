@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>دانلودر یوتیوب و اینستاگرام</title>
+  <link rel="stylesheet" href="/static/app.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <p class="eyebrow">Giv Sharifi · Media Tools</p>
+      <h1>دانلود ویدیو از یوتیوب و اینستاگرام</h1>
+      <p class="lead">لینک را بده؛ سرویس ویدیو و پوستر را دانلود و در صورت نیاز به Cloudflare R2 آپلود می‌کند.</p>
+    </header>
+
+    <section class="card" id="login-card">
+      <h2>ورود</h2>
+      <label class="field">
+        <span>رمز دسترسی</span>
+        <input id="password" type="password" autocomplete="current-password" placeholder="رمز تنظیم‌شده روی سرور" />
+      </label>
+      <button type="button" class="btn primary" id="login-btn">ادامه</button>
+      <p class="hint" id="login-error" hidden>رمز اشتباه است.</p>
+    </section>
+
+    <section class="card" id="download-card" hidden>
+      <h2>دانلود جدید</h2>
+      <label class="field">
+        <span>لینک ویدیو</span>
+        <input id="url" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=… یا https://www.instagram.com/reel/…" />
+      </label>
+      <label class="check">
+        <input id="upload-r2" type="checkbox" checked />
+        <span>آپلود به R2 (پوشه library)</span>
+      </label>
+      <div class="actions">
+        <button type="button" class="btn primary" id="download-btn">شروع دانلود</button>
+        <button type="button" class="btn ghost" id="logout-btn">خروج</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+      <pre class="result" id="result" hidden></pre>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

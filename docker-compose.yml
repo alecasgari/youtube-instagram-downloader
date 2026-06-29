@@ -1,0 +1,30 @@
+# Standalone stack — does NOT touch n8n compose or volumes.
+# After first start, connect n8n once:
+#   docker network connect giv-ytdlp-net n8n-app
+
+services:
+  giv-ytdlp:
+    build: .
+    image: giv-ytdlp:latest
+    container_name: giv-ytdlp
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - giv-ytdlp-data:/data
+    networks:
+      - giv-ytdlp-net
+    # Localhost only — put Caddy/nginx in front for HTTPS + public UI
+    ports:
+      - "127.0.0.1:9876:9876"
+    # Optional: persist cookies on host
+    # volumes:
+    #   - ./cookies.txt:/data/cookies.txt:ro
+
+networks:
+  giv-ytdlp-net:
+    name: giv-ytdlp-net
+    driver: bridge
+
+volumes:
+  giv-ytdlp-data:
+    name: giv-ytdlp-data

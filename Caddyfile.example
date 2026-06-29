@@ -1,0 +1,33 @@
+# Example Caddy v2 config — expose ONLY the UI paths publicly.
+# /download stays blocked from the internet (n8n uses internal Docker network).
+#
+# Install on VPS, then:
+#   sudo cp Caddyfile.example /etc/caddy/Caddyfile.d/download.caddy
+#   sudo systemctl reload caddy
+#
+# Replace download.example.com with your subdomain.
+
+download.example.com {
+	encode gzip
+
+	@blocked path /download
+	handle @blocked {
+		respond "Forbidden" 403
+	}
+
+	handle /api/* {
+		reverse_proxy 127.0.0.1:9876
+	}
+
+	handle /static/* {
+		reverse_proxy 127.0.0.1:9876
+	}
+
+	handle /health {
+		reverse_proxy 127.0.0.1:9876
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:9876
+	}
+}
