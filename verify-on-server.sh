@@ -2,7 +2,7 @@
 # Run on VPS: bash verify-on-server.sh [youtube-or-instagram-url]
 set -euo pipefail
 
-URL="${1:-https://youtu.be/cuomkatlVtg}"
+URL="${1:-https://www.instagram.com/reel/DQT7SyljbrE/}"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 

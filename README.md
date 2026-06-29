@@ -183,19 +183,51 @@ docker compose up -d
 docker compose ps
 ```
 
-### قدم ۴ — cookies یوتیوب
+### قدم ۴ — cookies (یوتیوب + اینستاگرام)
 
-روی لپ‌تاپ: افزونه **Get cookies.txt LOCALLY** → export از youtube.com
+کوکی‌ها **secret** هستند و داخل Git push نمی‌شوند. کد از GitHub می‌آید؛ فقط فایل merge‌شده `cookies/cookies.txt` را یک‌بار با `scp` به سرور می‌فرستی.
+
+#### روی لپ‌تاپ (Windows)
+
+1. در Chrome لاگین **YouTube** و **Instagram** باش.
+2. افزونه [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) را نصب کن.
+3. برو `https://www.youtube.com` → از افزونه Export → ذخیره در:
+   ```
+   youtube-instagram-downloader/cookies/youtube.export.txt
+   ```
+4. برو `https://www.instagram.com` → Export → ذخیره در:
+   ```
+   youtube-instagram-downloader/cookies/instagram.export.txt
+   ```
+5. ادغام:
+   ```powershell
+   cd C:\Users\aleca\Downloads\givsharifi\youtube-instagram-downloader
+   python scripts/merge-cookies.py
+   ```
+   خروجی: `cookies/cookies.txt` (۲۲ یوتیوب + ۱۳ اینستا)
+
+6. فرستادن **فقط cookies** به سرور (کد جداگانه با `git pull` می‌آید):
+   ```powershell
+   scp cookies/cookies.txt alecadmin@109.123.247.169:~/youtube-instagram-downloader/cookies/cookies.txt
+   ```
+
+#### روی سرور (VPS)
 
 ```bash
-docker cp cookies.txt giv-ytdlp:/data/cookies.txt
-docker compose restart
+cd ~/youtube-instagram-downloader
+bash scripts/install-cookies.sh
 ```
+
+این اسکریپت `cookies/cookies.txt` را داخل کانتینر `giv-ytdlp:/data/cookies.txt` می‌گذارد و سرویس را restart می‌کند.
 
 ### قدم ۵ — تست
 
 ```bash
-bash verify-on-server.sh "https://youtu.be/SHORT_ID"
+# اینستا (پیش‌فرض verify)
+bash verify-on-server.sh
+
+# یوتیوب — بعد از install cookies
+bash verify-on-server.sh "https://youtu.be/cuomkatlVtg"
 ```
 
 ---
@@ -230,16 +262,31 @@ http://giv-ytdlp:9876/download
 
 ---
 
-## cookies یوتیوب
+## cookies (یوتیوب + اینستاگرام)
 
-| پلتفرم | cookies |
-|--------|---------|
-| اینستاگرام | اغلب بدون cookies |
-| یوتیوب روی VPS | تقریباً همیشه لازم |
+| پلتفرم | نیاز به cookies روی VPS |
+|--------|-------------------------|
+| اینستاگرام | بله — `sessionid` و بقیه در export |
+| یوتیوب | بله — بدون آن خطای `Sign in to confirm you're not a bot` |
+
+### ساختار پوشه `cookies/`
+
+```
+cookies/
+├── youtube.export.txt    ← export مرورگر (gitignore)
+├── instagram.export.txt  ← export مرورگر (gitignore)
+├── cookies.txt           ← خروجی merge (gitignore)
+└── README.md
+```
+
+### به‌روزرسانی cookies (وقتی منقضی شد)
+
+1. دوباره export از مرورگر → جایگزین `*.export.txt`
+2. `python scripts/merge-cookies.py`
+3. `scp cookies/cookies.txt` به سرور
+4. `bash scripts/install-cookies.sh` روی سرور
 
 مسیر داخل کانتینر: `/data/cookies.txt`
-
-اگر منقضی شد: دوباره export و `docker cp`.
 
 ---
 

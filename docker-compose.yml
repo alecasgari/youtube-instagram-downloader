@@ -13,18 +13,15 @@ services:
       - giv-ytdlp-data:/data
     networks:
       - giv-ytdlp-net
-    # Localhost only — put Caddy/nginx in front for HTTPS + public UI
     ports:
       - "127.0.0.1:9876:9876"
-    # Optional: persist cookies on host
-    # volumes:
-    #   - ./cookies.txt:/data/cookies.txt:ro
 
 networks:
   giv-ytdlp-net:
     name: giv-ytdlp-net
-    driver: bridge
+    external: true
 
 volumes:
   giv-ytdlp-data:
     name: giv-ytdlp-data
+    external: true

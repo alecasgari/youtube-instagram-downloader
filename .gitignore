@@ -3,6 +3,10 @@
 !.env.example
 !env.example
 cookies.txt
+cookies/*.txt
+cookies/*.export.txt
+!cookies/.gitkeep
+!cookies/README.md
 __pycache__/
 *.pyc
 .DS_Store
