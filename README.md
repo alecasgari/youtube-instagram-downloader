@@ -303,22 +303,24 @@ cookies/
 
 ## به‌روزرسانی
 
-روی VPS:
+پوش به `main` از لپ‌تاپ کافی است. GitHub Action فایل‌ها را به VPS می‌فرستد (بدون `git pull`)، ایمیج را می‌سازد و کانتینر را عوض می‌کند. `.env` و cookies روی سرور دست نمی‌خورند.
+
+Secrets ریپو (یک‌بار در GitHub → Settings → Secrets):
+
+| Secret | مقدار |
+|--------|--------|
+| `VPS_HOST` | IP سرور |
+| `VPS_USER` | `alecadmin` |
+| `VPS_SSH_KEY` | کلید خصوصی ed25519 مخصوص Actions |
+
+دیپلوی دستی از Actions: **Actions → Deploy giv-ytdlp → Run workflow**.
+
+اگر خواستی روی خود VPS بسازی (دیگر لازم نیست):
 
 ```bash
-cd /home/alecadmin/youtube-instagram-downloader
+cd ~/youtube-instagram-downloader
 bash deploy.sh
 ```
-
-یا دستی:
-
-```bash
-git pull
-docker compose build
-docker compose up -d --force-recreate
-```
-
-روی لپ‌تاپ: تغییر بده → `git push` → روی سرور `deploy.sh`.
 
 ---
 
@@ -328,7 +330,8 @@ docker compose up -d --force-recreate
 |------|--------|
 | n8n `ECONNREFUSED` | `docker network connect giv-ytdlp-net n8n-app` |
 | یوتیوب bot / sign in | cookies تازه در `/data/cookies.txt` |
-| یوتیوب `The page needs to be reloaded` | کلاینت `tv_downgraded` با cookies — در `download.py` دور زده شده. روی سرور `git pull` + `bash deploy.sh`. اگر ماند، cookies را دوباره export کن |
+| یوتیوب `The page needs to be reloaded` | کلاینت `tv_downgraded` با cookies — در `download.py` دور زده شده. پوش به `main` کافی است. اگر ماند، cookies را دوباره export کن |
+| `git pull` روی سرور username می‌خواهد | remote سرور HTTPS است. دیپلوی از Actions است؛ روی سرور `git pull` نزن. اگر لازم شد: `git remote set-url origin git@github.com-ytdlp:alecasgari/youtube-instagram-downloader.git` |
 | `R2 not configured` | `.env` را چک کن؛ `docker compose up -d` |
 | `503 another download` | صبر کن تا دانلود قبلی تمام شود |
 | UI «رمز اشتباه» | `GIV_YTDLP_UI_PASSWORD` در `.env` |
