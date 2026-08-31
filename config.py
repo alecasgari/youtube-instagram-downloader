@@ -10,7 +10,9 @@ class Settings:
     host: str
     port: int
     token: str
+    ui_username: str
     ui_password: str
+    ui_secret: str
     data_dir: Path
     cookies_file: Path | None
     r2_account_id: str
@@ -32,7 +34,7 @@ class Settings:
 
     @property
     def ui_enabled(self) -> bool:
-        return bool(self.ui_password)
+        return bool(self.ui_username and self.ui_password)
 
 
 def load_settings() -> Settings:
@@ -51,7 +53,9 @@ def load_settings() -> Settings:
         host=os.environ.get("GIV_YTDLP_HOST", "0.0.0.0"),
         port=int(os.environ.get("GIV_YTDLP_PORT", "9876")),
         token=os.environ.get("GIV_YTDLP_TOKEN", "").strip(),
+        ui_username=os.environ.get("GIV_YTDLP_UI_USERNAME", "").strip(),
         ui_password=os.environ.get("GIV_YTDLP_UI_PASSWORD", "").strip(),
+        ui_secret=os.environ.get("GIV_YTDLP_UI_SECRET", "").strip(),
         data_dir=data_dir,
         cookies_file=cookies_file,
         r2_account_id=os.environ.get("R2_ACCOUNT_ID", "").strip(),

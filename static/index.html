@@ -3,44 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>دانلودر یوتیوب و اینستاگرام</title>
+  <title>Giv ytig — دانلودر یوتیوب و اینستاگرام</title>
   <link rel="stylesheet" href="/static/app.css" />
 </head>
 <body>
   <main class="shell">
     <header class="hero">
-      <p class="eyebrow">Giv Sharifi · Media Tools</p>
-      <h1>دانلود ویدیو از یوتیوب و اینستاگرام</h1>
-      <p class="lead">لینک را بده؛ سرویس ویدیو و پوستر را دانلود و در صورت نیاز به Cloudflare R2 آپلود می‌کند.</p>
+      <p class="eyebrow">Giv Sharifi · ytig</p>
+      <h1>دانلود یوتیوب و اینستاگرام</h1>
+      <p class="lead">ورود فقط برای شماست. لینک را بدهید یا کوکی‌های مرورگر را از Get cookies.txt LOCALLY اینجا پیست کنید.</p>
     </header>
 
     <section class="card" id="login-card">
       <h2>ورود</h2>
       <label class="field">
-        <span>رمز دسترسی</span>
-        <input id="password" type="password" autocomplete="current-password" placeholder="رمز تنظیم‌شده روی سرور" />
+        <span>نام کاربری</span>
+        <input id="username" type="text" autocomplete="username" dir="ltr" />
       </label>
-      <button type="button" class="btn primary" id="login-btn">ادامه</button>
-      <p class="hint" id="login-error" hidden>رمز اشتباه است.</p>
+      <label class="field">
+        <span>رمز عبور</span>
+        <input id="password" type="password" autocomplete="current-password" />
+      </label>
+      <button type="button" class="btn primary" id="login-btn">ورود</button>
+      <p class="hint" id="login-error" hidden></p>
     </section>
 
-    <section class="card" id="download-card" hidden>
-      <h2>دانلود جدید</h2>
-      <label class="field">
-        <span>لینک ویدیو</span>
-        <input id="url" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=… یا https://www.instagram.com/reel/…" />
-      </label>
-      <label class="check">
-        <input id="upload-r2" type="checkbox" checked />
-        <span>آپلود به R2 (پوشه library)</span>
-      </label>
-      <div class="actions">
-        <button type="button" class="btn primary" id="download-btn">شروع دانلود</button>
-        <button type="button" class="btn ghost" id="logout-btn">خروج</button>
-      </div>
-      <p class="status" id="status" aria-live="polite"></p>
-      <pre class="result" id="result" hidden></pre>
-    </section>
+    <div id="app" hidden>
+      <section class="card">
+        <div class="card-head">
+          <h2>دانلود ویدیو</h2>
+          <button type="button" class="btn ghost" id="logout-btn">خروج</button>
+        </div>
+        <label class="field">
+          <span>لینک یوتیوب یا ریل اینستاگرام</span>
+          <input id="url" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=… یا https://www.instagram.com/reel/…" />
+        </label>
+        <label class="check">
+          <input id="upload-r2" type="checkbox" checked />
+          <span>آپلود به R2 (پوشه library)</span>
+        </label>
+        <div class="actions">
+          <button type="button" class="btn primary" id="download-btn">شروع دانلود</button>
+        </div>
+        <p class="status" id="status" aria-live="polite"></p>
+        <div class="result-box" id="result" hidden></div>
+      </section>
+
+      <section class="card">
+        <h2>کوکی‌های یوتیوب و اینستاگرام</h2>
+        <p class="meta" id="cookie-meta">وضعیت کوکی هنوز خوانده نشده.</p>
+        <p class="help">روی تب youtube.com یا instagram.com افزونه Get cookies.txt LOCALLY را بزنید، Export کنید، کل متن Netscape را اینجا پیست کنید، بعد اعمال را بزنید. تا اعمال تمام نشده در همان مرورگر دوباره آن سایت را باز نکنید.</p>
+        <label class="field">
+          <span>کوکی YouTube</span>
+          <textarea id="youtube-cookies" dir="ltr" rows="8" placeholder="# Netscape HTTP Cookie File …"></textarea>
+        </label>
+        <label class="field">
+          <span>کوکی Instagram</span>
+          <textarea id="instagram-cookies" dir="ltr" rows="8" placeholder="# Netscape HTTP Cookie File …"></textarea>
+        </label>
+        <div class="actions">
+          <button type="button" class="btn primary" id="cookies-btn">اعمال کوکی‌ها روی سرور</button>
+        </div>
+        <p class="status" id="cookie-status" aria-live="polite"></p>
+      </section>
+    </div>
   </main>
   <script src="/static/app.js"></script>
 </body>

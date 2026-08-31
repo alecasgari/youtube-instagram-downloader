@@ -117,15 +117,13 @@
 
 ## رابط وب (UI)
 
-بعد از deploy و (در صورت نیاز) تنظیم Caddy:
+آدرس: `https://ytig.alecasgari.com`
 
-1. باز کردن آدرس عمومی (مثلاً `https://download.example.com`)
-2. وارد کردن رمز (`GIV_YTDLP_UI_PASSWORD`)
-3. چسباندن لینک یوتیوب/اینستا
-4. تیک «آپلود به R2» را روشن/خاموش کن
-5. نتیجه JSON + لینک‌های R2 نمایش داده می‌شود
+1. ورود با نام کاربری و رمز (نشست HttpOnly؛ رمز در مرورگر ذخیره نمی‌شود)
+2. لینک یوتیوب / اینستاگرام → دانلود (+ آپلود R2)
+3. پیست کوکی Netscape از افزونه Get cookies.txt LOCALLY برای YouTube و Instagram → اعمال فوری روی `/data/cookies.txt`
 
-رمز فقط در `sessionStorage` مرورگر نگه داشته می‌شود (نه localStorage).
+پروکسی: Nginx Proxy Manager به `127.0.0.1:9876`، timeout حداقل ۶۰۰ ثانیه، مسیر `/download` از اینترنت بسته.
 
 ---
 

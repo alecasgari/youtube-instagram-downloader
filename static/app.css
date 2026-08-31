@@ -66,6 +66,35 @@ h2 {
   font-size: 1.05rem;
 }
 
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.card-head h2 { margin: 0; }
+
+.help,
+.meta {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+.result-box {
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border);
+}
+
+.result-box p { margin: 0 0 0.45rem; }
+.result-box a { color: var(--gold); }
+
 .field {
   display: grid;
   gap: 0.45rem;
@@ -79,7 +108,9 @@ h2 {
 }
 
 input[type="url"],
-input[type="password"] {
+input[type="password"],
+input[type="text"],
+textarea {
   width: 100%;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
@@ -87,6 +118,14 @@ input[type="password"] {
   border-radius: 10px;
   padding: 0.8rem 0.9rem;
   font-size: 1rem;
+}
+
+textarea {
+  min-height: 9rem;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  resize: vertical;
 }
 
 input:focus {
