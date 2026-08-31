@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import json
 import mimetypes
+import re
 import sys
 import threading
 import time
@@ -264,6 +265,8 @@ class Handler(BaseHTTPRequestHandler):
                 payload["work_dir"] = str(work_dir)
                 payload["mp4_path"] = str(result["mp4"])
                 payload["poster_path"] = str(result["poster"])
+                payload["local_mp4"] = "/api/ui-file/" + video_id + ".mp4"
+                payload["local_poster"] = "/api/ui-file/" + video_id + ".jpg"
 
             self._json(200, payload)
         except Exception as exc:
@@ -336,6 +339,33 @@ class Handler(BaseHTTPRequestHandler):
             return
         self._json(200, {"ok": True, "cookies": cookie_status(dest)})
 
+    def _handle_ui_file(self, name: str) -> None:
+        if not self._session_valid():
+            self._json(401, {"ok": False, "error": "unauthorized"})
+            return
+        name = unquote(name).split("/")[-1]
+        if ".." in name or not re.fullmatch(r"[\w.-]{3,80}", name):
+            self._json(400, {"ok": False, "error": "bad filename"})
+            return
+        matches = sorted(
+            self.settings.data_dir.glob("giv-video-ui-*/" + name),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if not matches or not matches[0].is_file():
+            self._json(404, {"ok": False, "error": "file not found"})
+            return
+        target = matches[0]
+        data = target.read_bytes()
+        ctype = mimetypes.guess_type(target.name)[0] or "application/octet-stream"
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Disposition", f'attachment; filename="{target.name}"')
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
     def do_GET(self) -> None:
         path = unquote(self.path.split("?", 1)[0])
 
@@ -356,6 +386,10 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/api/ui-me":
             self._handle_me()
+            return
+
+        if path.startswith("/api/ui-file/"):
+            self._handle_ui_file(path[len("/api/ui-file/") :])
             return
 
         if path in ("/", "/ui"):

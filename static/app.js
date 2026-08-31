@@ -146,12 +146,14 @@
       const title = (data.video_meta && data.video_meta.title) || data.video_id;
       const mp4 = data.r2 && data.r2.mp4_url;
       const poster = data.r2 && data.r2.poster_url;
+      const localMp4 = data.local_mp4 || (!mp4 && data.video_id ? "/api/ui-file/" + encodeURIComponent(data.video_id) + ".mp4" : "");
       resultEl.hidden = false;
       resultEl.innerHTML =
         `<p><strong>${escapeHtml(title)}</strong></p>` +
         `<p>منبع: ${escapeHtml(data.source || "")} · شناسه: ${escapeHtml(data.video_id || "")}</p>` +
-        (mp4 ? `<p><a href="${escapeAttr(mp4)}" target="_blank" rel="noopener">فایل MP4</a></p>` : "") +
-        (poster ? `<p><a href="${escapeAttr(poster)}" target="_blank" rel="noopener">پوستر</a></p>` : "");
+        (mp4 ? `<p><a href="${escapeAttr(mp4)}" target="_blank" rel="noopener">فایل MP4 روی R2</a></p>` : "") +
+        (poster ? `<p><a href="${escapeAttr(poster)}" target="_blank" rel="noopener">پوستر</a></p>` : "") +
+        (localMp4 ? `<p><a href="${escapeAttr(localMp4)}" download>دانلود روی کامپیوتر</a></p>` : "");
     } catch (err) {
       setStatus(statusEl, "خطای شبکه یا timeout — دوباره تلاش کنید.", "err");
     } finally {
