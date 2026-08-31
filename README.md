@@ -328,6 +328,7 @@ docker compose up -d --force-recreate
 |------|--------|
 | n8n `ECONNREFUSED` | `docker network connect giv-ytdlp-net n8n-app` |
 | یوتیوب bot / sign in | cookies تازه در `/data/cookies.txt` |
+| یوتیوب `The page needs to be reloaded` | کلاینت `tv_downgraded` با cookies — در `download.py` دور زده شده. روی سرور `git pull` + `bash deploy.sh`. اگر ماند، cookies را دوباره export کن |
 | `R2 not configured` | `.env` را چک کن؛ `docker compose up -d` |
 | `503 another download` | صبر کن تا دانلود قبلی تمام شود |
 | UI «رمز اشتباه» | `GIV_YTDLP_UI_PASSWORD` در `.env` |

@@ -9,7 +9,8 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir -U --pre "yt-dlp[default]"
 
 COPY config.py download.py r2_upload.py server.py main.py ./
 COPY static ./static

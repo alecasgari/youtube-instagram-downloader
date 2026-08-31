@@ -51,6 +51,14 @@ def download_video(url: str, work_id: str, settings: Settings) -> dict:
             "See README.md"
         )
 
+    if source == "youtube":
+        # Logged-in cookies make yt-dlp pick tv_downgraded, which YouTube currently
+        # returns as UNPLAYABLE ("The page needs to be reloaded"). See yt-dlp#17389.
+        cmd.extend([
+            "--extractor-args",
+            "youtube:player_client=web_safari,web_embedded,-tv_downgraded",
+        ])
+
     cmd.append(url)
 
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
